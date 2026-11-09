@@ -1,0 +1,40 @@
+{
+  "mes": "2026-11",
+  "saldo_abertura_brl": "12000.00",
+  "saldo_fechamento_brl": "12640.00",
+  "fluxos_externos_completos": true,
+  "saldos_por_grupo_brl": {
+    "fii": "8800",
+    "acoes_br": "1600",
+    "renda_fixa": "1400",
+    "global": "840"
+  },
+  "posicoes_conciliar": {
+    "FUND11": {"abertura": 10, "fechamento": 12, "custo_total_abertura_brl": "1000"}
+  },
+  "metas": [
+    {
+      "objetivo": "Patrimônio de longo prazo",
+      "valor_brl": "1000000",
+      "base": "real",
+      "prazo_meses": 360,
+      "saldo_destinado_brl": "12640",
+      "aporte_mensal_brl": "600",
+      "produtos_elegiveis": ["títulos de renda fixa", "ETFs globais"],
+      "inflacao_aa_pct": "3",
+      "retornos_liquidos_aa_pct": [6, 8, 10]
+    }
+  ],
+  "plano_aporte": {
+    "disponivel_brl": "600",
+    "caixa_ja_incluido": false,
+    "grupos_elegiveis": ["renda_fixa", "global"],
+    "alternativas": {
+      "Renda fixa": {"renda_fixa": "600"},
+      "ETF global": {"global": "600"},
+      "Combinação": {"renda_fixa": "300", "global": "300"}
+    }
+  },
+  "cotacoes": [],
+  "eventos": []
+}

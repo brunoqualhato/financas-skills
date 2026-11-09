@@ -1,0 +1,46 @@
+{
+  "data_base": "2026-11-09",
+  "perfil": {
+    "objetivo": "renda e crescimento",
+    "horizonte": "5 anos",
+    "liquidez_necessaria": "reserva de emergência fora desta carteira",
+    "tolerancia_a_perdas": "moderada"
+  },
+  "posicoes": [
+    {
+      "classe": "acao_br",
+      "ticker": "PETR4",
+      "bolsa": "B3",
+      "moeda": "BRL",
+      "quantidade": 20,
+      "preco_medio": "35.50"
+    },
+    {
+      "classe": "fii",
+      "ticker": "HGLG11",
+      "bolsa": "B3",
+      "moeda": "BRL",
+      "quantidade": 5
+    },
+    {
+      "classe": "internacional",
+      "ticker": "VOO",
+      "bolsa": "NYSE Arca",
+      "moeda": "USD",
+      "quantidade": "2.5"
+    },
+    {
+      "classe": "renda_fixa",
+      "id_titulo": "CDB-01",
+      "produto": "CDB",
+      "emissor": "Banco de exemplo",
+      "moeda": "BRL",
+      "indexador": "CDI",
+      "taxa_contratada": "110% do CDI",
+      "valor_aplicado": "5000.00",
+      "data_aplicacao": "2026-10-01",
+      "vencimento": "2027-10-01",
+      "liquidez": "no vencimento"
+    }
+  ]
+}

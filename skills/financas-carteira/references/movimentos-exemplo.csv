@@ -1,0 +1,4 @@
+id,data,tipo,ativo,quantidade_delta,valor_brl
+ex-01,2026-11-03,aporte,,,600.00
+ex-02,2026-11-05,compra,FUND11,2,190.00
+ex-03,2026-11-16,provento,FUND11,,8.00
