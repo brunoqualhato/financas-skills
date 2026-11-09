@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Run unit tests
+      run: python -m unittest discover tests -v
+
+    - name: Validate sample portfolio plan
+      run: python skills/financas-carteira/scripts/carteira.py plano skills/financas-carteira/references/carteira-exemplo.json
+
+    - name: Validate fixed income tax calculator
+      run: python skills/financas-carteira/scripts/carteira.py ir 180
+
+    - name: Validate monthly report with XIRR
+      run: python skills/financas-carteira/scripts/mensal.py skills/financas-carteira/references/mensal-exemplo.json skills/financas-carteira/references/movimentos-exemplo.csv

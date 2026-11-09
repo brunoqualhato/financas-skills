@@ -31,6 +31,38 @@ def moeda(valor):
     return str(valor.quantize(CENTAVO))
 
 
+def calcular_xirr(fluxos, palpite=0.1, max_iter=100, tol=1e-7):
+    if not fluxos or len(fluxos) < 2:
+        return None
+    fluxos_validos = [(d, float(v)) for d, v in fluxos if v != 0]
+    has_pos = any(v > 0 for _, v in fluxos_validos)
+    has_neg = any(v < 0 for _, v in fluxos_validos)
+    if not (has_pos and has_neg):
+        return None
+    d0 = min(d for d, _ in fluxos_validos)
+    r = palpite
+    for _ in range(max_iter):
+        f = 0.0
+        df = 0.0
+        for d, v in fluxos_validos:
+            dt = (d - d0).days / 365.0
+            denom = (1.0 + r) ** dt
+            if denom == 0:
+                return None
+            f += v / denom
+            if dt != 0:
+                df -= dt * v / ((1.0 + r) ** (dt + 1.0))
+        if abs(df) < 1e-12:
+            break
+        r_novo = r - f / df
+        if abs(r_novo - r) < tol:
+            return r_novo
+        r = r_novo
+        if r <= -0.9999:
+            r = -0.9999
+    return r
+
+
 def simular_meta(meta, saldo):
     alvo = decimal(meta["valor_brl"], "valor da meta", CENTAVO)
     aporte = decimal(meta["aporte_mensal_brl"], "aporte mensal", ZERO)
@@ -234,6 +266,21 @@ def relatorio(config, arquivos):
     fluxo = totais["aporte"] - totais["retirada"]
     if config.get("fluxos_externos_completos") is True and not arquivos:
         raise ValueError("forneça um CSV, ainda que só com cabeçalho, para confirmar o fluxo completo")
+    xirr_anualizado = None
+    if config.get("fluxos_externos_completos") is True:
+        fluxos = []
+        if inicial > ZERO:
+            fluxos.append((inicio, -float(inicial)))
+        for dia, tipo, _, _, valor in movimentos:
+            if tipo == "aporte" and valor > ZERO:
+                fluxos.append((dia, -float(valor)))
+            elif tipo == "retirada" and valor > ZERO:
+                fluxos.append((dia, float(valor)))
+        if final > ZERO:
+            fluxos.append((fim, float(final)))
+        taxa = calcular_xirr(fluxos)
+        if taxa is not None:
+            xirr_anualizado = str((Decimal(str(taxa)) * CEM).quantize(CENTAVO))
     resultado = {
         "mes": config["mes"],
         "saldo_abertura_brl": moeda(inicial),
@@ -242,6 +289,7 @@ def relatorio(config, arquivos):
         "variacao_patrimonial_brl": moeda(final - inicial),
         "fluxo_externo_liquido_brl": moeda(fluxo),
         "resultado_apos_fluxos_brl": moeda(final - inicial - fluxo) if config.get("fluxos_externos_completos") is True else None,
+        "xirr_anualizado_pct": xirr_anualizado,
         "conciliacao_quantidades": conciliacao,
         "pesos_fechamento_pct": pesos(saldos),
         "cotacoes_conferidas": verificar_cotacoes(config.get("cotacoes", [])),

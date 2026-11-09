@@ -7,7 +7,8 @@ Aceite uma lista em linguagem natural, tabela ou arquivo JSON. Converta a lista 
 Para renda fixa, use um ID local por título e identifique produto e emissor. Solicite a taxa contratada, indexador, data de aplicação, carência, vencimento e liquidez quando necessários para estimar o saldo ou avaliar saída. O termo fornecido pelo usuário prevalece para as condições contratadas. Omita campos desconhecidos. Não pesquise identificadores privados, número de conta, quantidade, custo ou outros dados pessoais na web.
 
 - Execute `python3 scripts/carteira.py plano ARQUIVO.json` a partir do diretório desta skill para validar e obter uma lista de ativos únicos. Corrija entradas ambíguas com base no material do usuário e preserve todos os lotes na consolidação.
-- Execute `python3 scripts/carteira.py macro AAAA-MM-DD` para obter CDI diário e meta Selic com data, unidade e URL do Banco Central. Use a data de corte da pesquisa, que pode diferir da data-base das posições. Em falha parcial, preserve as séries válidas e consulte o SGS pela web para as restantes. Verifique o IPCA no IBGE, as decisões e atas no BCB e o câmbio em fonte adequada à data.
+- Execute `python3 scripts/carteira.py macro AAAA-MM-DD` para obter CDI diário, meta Selic e Dólar PTAX com data, unidade e URL do Banco Central. Use a data de corte da pesquisa, que pode diferir da data-base das posições. Em falha parcial, preserve as séries válidas e consulte o SGS pela web para as restantes. Verifique o IPCA no IBGE e decisões no BCB.
+- Execute `python3 scripts/carteira.py ir DIAS` ou `python3 scripts/carteira.py ir DATA_INICIO DATA_FIM` para apurar a alíquota da tabela regressiva de IR de renda fixa. Para regras de apuração, isenções, B3, FIIs e exterior, use a skill `financas-fiscal`.
 - Use a busca web para preços, documentos, proventos, notícias e eventos. As consultas externas devem conter somente os identificadores públicos necessários.
 
 ## Pesquisa individual

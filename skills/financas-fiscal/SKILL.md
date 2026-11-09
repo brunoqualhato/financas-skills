@@ -1,0 +1,14 @@
+---
+name: financas-fiscal
+description: Orienta a apuração de imposto de renda e regras tributárias sobre investimentos no Brasil e exterior. Use para calcular tributação de ações na B3, FIIs, renda fixa, ETFs, ativos no exterior (Lei 14.754/2023), compensação de prejuízos acumulados e recolhimento de DARF.
+---
+
+# Tributação de investimentos
+
+1. **Ações B3 e mercado à vista.** Para operações comuns (swing trade), verifique se o total das vendas no mês calendário ficou em até R$ 20.000,00 (faixa de isenção de ganho de capital para pessoas físicas). Acima de R$ 20.000,00 em vendas, o ganho líquido total do mês é tributado a 15%. Para day-trade, a alíquota é de 20% sobre o ganho líquido sem faixa de isenção. Deduza custos operacionais, corretagem e taxas da B3 da base tributável e desconte o IRRF retido na fonte ("dedo-duro").
+2. **Fundos Imobiliários (FIIs) e FIAGROs.** Alienação de cotas é tributada à alíquota fixa de 20% sobre o ganho de capital, sem qualquer faixa de isenção por volume de vendas. Rendimentos periódicos distribuídos a pessoas físicas são isentos de IR se o fundo for negociado exclusivamente em bolsa ou balcão organizado, possuir no mínimo 100 cotistas e o beneficiário detiver menos de 10% das cotas.
+3. **Investimentos internacionais (Lei 14.754/2023).** A partir de 01/01/2024, rendimentos e ganhos de capital com ativos no exterior (ações, ETFs, REITs, bonds) são tributados à alíquota definitiva de 15% na Declaração de Ajuste Anual (DAA). A antiga isenção mensal de R$ 35.000 para vendas de bens no exterior foi extinta. Perdas no exterior podem ser compensadas com ganhos de mesma natureza no mesmo ano-calendário. Imposto retido na fonte no exterior (como os 30% sobre dividendos nos EUA) pode ser compensado até o limite do imposto devido no Brasil, respeitados acordos de bitributação ou reciprocidade.
+4. **Renda fixa brasileira.** Verifique o prazo entre a aplicação e o resgate/vencimento para aplicar a tabela regressiva de IR retido na fonte: 22,5% (até 180 dias), 20,0% (181 a 360 dias), 17,5% (361 a 720 dias) e 15,0% (acima de 720 dias). Para resgates antes de 30 dias corridos, aplique primeiro a tabela regressiva do IOF (de 96% no 1º dia a 0% no 30º dia) antes de apurar o IR. Confirme isenção de IR para pessoas físicas em LCI, LCA, CRI, CRA e Debêntures Incentivadas (Lei 12.431/2011).
+5. **Compensação de prejuízos e DARF.** Prejuízos acumulados podem ser compensados indefinidamente em meses futuros, mas apenas dentro do mesmo grupo de operações (operações comuns de ações com ações; day-trade com day-trade; FIIs com FIIs). O imposto apurado em bolsa deve ser pago via DARF sob o código 6015 até o último dia útil do mês subsequente ao das operações. Não recolha DARF com valor inferior a R$ 10,00 (acumule para o próximo período em que o total atingir o limite mínimo).
+
+Entregue memória de cálculo, alíquotas aplicadas, prejuízos compensados, valor líquido a recolher e instruções para a DAA.

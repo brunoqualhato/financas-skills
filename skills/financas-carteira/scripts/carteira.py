@@ -12,7 +12,11 @@ from urllib.request import urlopen
 
 LISTADOS = {"acao_br", "fii", "internacional"}
 CLASSES = LISTADOS | {"renda_fixa"}
-SERIES = {"cdi": (12, "% ao dia"), "meta_selic": (432, "% ao ano")}
+SERIES = {
+    "cdi": (12, "% ao dia"),
+    "meta_selic": (432, "% ao ano"),
+    "dolar_ptax": (1, "BRL por USD"),
+}
 CAMPOS_POSICAO = {
     "classe", "ticker", "bolsa", "moeda", "quantidade", "preco_medio",
     "id_titulo", "produto", "emissor", "indexador", "taxa_contratada",
@@ -137,21 +141,57 @@ def macro(data_base):
     return resultado
 
 
+def aliquota_ir(dias):
+    if not isinstance(dias, int) or dias < 0:
+        raise ValueError("dias deve ser um número inteiro não negativo")
+    if dias <= 180:
+        return {"dias_corridos": dias, "aliquota_pct": "22.5", "faixa": "até 180 dias"}
+    elif dias <= 360:
+        return {"dias_corridos": dias, "aliquota_pct": "20.0", "faixa": "181 a 360 dias"}
+    elif dias <= 720:
+        return {"dias_corridos": dias, "aliquota_pct": "17.5", "faixa": "361 a 720 dias"}
+    return {"dias_corridos": dias, "aliquota_pct": "15.0", "faixa": "acima de 720 dias"}
+
+
+def calcular_ir_comando(termo1, termo2=None):
+    if termo2 is not None:
+        inicio = data_iso(termo1)
+        fim = data_iso(termo2)
+        if fim < inicio:
+            raise ValueError("data final anterior à data inicial")
+        dias = (fim - inicio).days
+    else:
+        try:
+            dias = int(termo1)
+        except ValueError:
+            raise ValueError("informe a quantidade de dias ou duas datas no formato AAAA-MM-DD") from None
+    res = aliquota_ir(dias)
+    if termo2 is not None:
+        res["data_inicio"] = str(data_iso(termo1))
+        res["data_fim"] = str(data_iso(termo2))
+    return res
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     comandos = parser.add_subparsers(dest="comando", required=True)
     comandos.add_parser("plano", help="valida e lista os ativos únicos").add_argument(
         "arquivo", type=Path
     )
-    comandos.add_parser("macro", help="consulta CDI e meta Selic").add_argument(
+    comandos.add_parser("macro", help="consulta CDI, meta Selic e PTAX").add_argument(
         "data_base", type=data_iso
     )
+    parser_ir = comandos.add_parser("ir", help="calcula alíquota regressiva de IR para renda fixa")
+    parser_ir.add_argument("termo1", help="dias corridos ou data inicial (AAAA-MM-DD)")
+    parser_ir.add_argument("termo2", nargs="?", default=None, help="data final opcional (AAAA-MM-DD)")
     args = parser.parse_args()
     try:
         if args.comando == "plano":
             dados = plano(json.loads(args.arquivo.read_text(encoding="utf-8"), parse_float=Decimal))
-        else:
+        elif args.comando == "macro":
             dados = macro(args.data_base)
+        else:
+            dados = calcular_ir_comando(args.termo1, args.termo2)
     except (OSError, ValueError) as erro:
         parser.exit(2, f"Erro: {erro}\n")
     print(json.dumps(dados, ensure_ascii=False, indent=2, default=str, allow_nan=False))
