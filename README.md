@@ -1,5 +1,9 @@
 # Skills de finanças
 
+[![CI](https://github.com/brunoqualhato/financas-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/brunoqualhato/financas-skills/actions/workflows/ci.yml)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Para analisar seus investimentos, envie ao agente uma lista como esta, substituindo os exemplos pelas suas posições.
 
 > Analise minha carteira ativo por ativo. Tenho 20 PETR4, 5 HGLG11, 2,5 VOO e um CDB do Banco X a 110% do CDI com vencimento em outubro de 2027. Meu objetivo é renda e crescimento em cinco anos. Verifique cotações, fundamentos, proventos, notícias e riscos políticos e setoriais. Diga em quais condições faz sentido comprar, manter, reduzir ou vender cada ativo e cite as fontes.
@@ -34,10 +38,13 @@ python3 skills/financas-carteira/scripts/mensal.py \
 
 O relatório calcula variação patrimonial, resultado em reais após fluxos, conciliação de quantidades/custos, projeção de metas com inflação, rebalanceamento de aportes e rentabilidade anualizada do investidor (**XIRR/TIR**).
 
-## Testes automatizados
+## Testes automatizados e atalhos
 
-Execute a suíte de testes unitários nativa com:
+Você pode rodar os testes unitários diretamente ou usar os alvos do `Makefile`:
 
 ```sh
-python3 -m unittest discover tests
+make test            # Executa os testes unitários nativos
+make demo            # Executa validação de carteira e relatório mensal de exemplo
+make install         # Ativa as skills no workspace local (.gemini/skills)
+make install-global  # Ativa as skills globalmente (~/.gemini/config/skills)
 ```
